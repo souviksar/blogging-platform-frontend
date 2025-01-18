@@ -62,5 +62,7 @@ export const EErrors = {
   event_currency: [
     { type: 'whitespace', message: 'Currency is required' },
     { type: 'maxlength', message: 'Currency should be max 3 characters long' }
-  ]
+  ],
+  title: [{ type: 'whitespace', message: 'Title is required' }],
+  content: [{ type: 'whitespace', message: 'Content is required' }]
 } as const;

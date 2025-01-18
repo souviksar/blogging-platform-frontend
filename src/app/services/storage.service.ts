@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUser, IUserInfo } from '../interfaces';
+import { IUser } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { IUser, IUserInfo } from '../interfaces';
 export class StorageService {
   constructor() {}
 
-  setUserInfo(data: Partial<IUserInfo>, keepMeSignedIn: boolean) {
+  setUserInfo(data: Partial<IUser>, keepMeSignedIn: boolean) {
     keepMeSignedIn ? localStorage.setItem('userInfo', JSON.stringify(data)) : sessionStorage.setItem('userInfo', JSON.stringify(data));
   }
 
@@ -16,7 +16,7 @@ export class StorageService {
     return userInfo ? JSON.parse(userInfo) : null;
   }
 
-  updateUserInfo(data: Partial<IUserInfo>) {
+  updateUserInfo(data: Partial<IUser>) {
     if (localStorage.getItem('userInfo')) {
       localStorage.setItem('userInfo', JSON.stringify(data));
     } else {
@@ -25,7 +25,7 @@ export class StorageService {
   }
 
   saveTokens(accessToken: string, refreshToken: string) {
-    if (localStorage.getItem('idToken')) {
+    if (localStorage.getItem('accessToken')) {
       this.setAccessToken(accessToken, true);
       this.setRefreshToken(refreshToken, true);
     } else {

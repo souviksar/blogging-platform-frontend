@@ -55,6 +55,10 @@ export interface IRefreshTokensRequest {
 
 export interface IRefreshTokenResponse {
   message: string;
-  data: ITokenData;
+  data: ITokensData;
   status: string;
+}
+
+interface ITokensData {
+  tokens: ITokenData;
 }

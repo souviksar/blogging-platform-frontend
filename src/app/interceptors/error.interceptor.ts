@@ -36,7 +36,7 @@ export const errorInterceptor: HttpInterceptorFn = (request, next) => {
       if (refreshToken) {
         return authService.refreshTokens({ refreshToken: refreshToken }).pipe(
           tap((res) => {
-            const { access, refresh } = res.data;
+            const { access, refresh } = res.data.tokens;
             storageService.saveTokens(access, refresh);
             currentState$.next(EState.Initial); // Reset state after refresh
           }),

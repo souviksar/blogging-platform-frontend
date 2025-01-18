@@ -1,103 +1,130 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { MaterialModule } from 'src/app/shared/material/material.module';
+import { MatDialog } from '@angular/material/dialog';
+import { LoaderService, PostService, StorageService } from 'src/app/services';
+import { ToastrService } from 'ngx-toastr';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { EmptyValueCheckPipe } from 'src/app/pipes';
+import { EMode } from 'src/app/constants';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { AddEditComponent } from '../add-edit/add-edit.component';
+import { Subject, takeUntil } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IUser } from 'src/app/interfaces';
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'app-post-list',
   standalone: true,
-  imports: [],
+  imports: [MaterialModule, ReactiveFormsModule, CommonModule, EmptyValueCheckPipe],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent {
-  // toastr: ToastrService = inject(ToastrService);
-  // dialog: MatDialog = inject(MatDialog);
-  // fb: FormBuilder = inject(FormBuilder);
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // loaderService: LoaderService = inject(LoaderService);
-  // displayedColumns: string[] = ['name', 'email', 'employeeId', 'passcode', 'action'];
-  // dataSource = new MatTableDataSource<any>();
-  // totalCount: number = 0;
-  // pageSize: number = 10;
-  // currentPage: number = 1;
-  // firestore: Firestore = inject(Firestore);
-  // staffData: any;
-  // ngOnInit() {
-  //   this.getStaffData(this.currentPage - 1, this.pageSize);
-  // }
-  // async getStaffData(pageIndex: number = 0, pageSize: number = 10) {
-  //   const staffCollection = collection(this.firestore, EFirestoreCollectionName.Staff_Master);
-  //   const teamQuery = query(staffCollection, orderBy('createdAt', 'desc'));
-  //   try {
-  //     const snapshot = await getDocs(teamQuery);
-  //     const staffData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  //     // Calculate the start and end index for the current page
-  //     const startIndex = pageIndex * pageSize;
-  //     const endIndex = startIndex + pageSize;
-  //     // Slice the staffData to get the data for the current page
-  //     this.dataSource.data = staffData.slice(startIndex, endIndex);
-  //     this.totalCount = staffData.length; // Update total count
-  //   } catch (error) {
-  //     this.toastr.error('Error fetching staff data.');
-  //   }
-  // }
-  // addStaff() {
-  //   this.dialog
-  //     .open(AddEditComponent, {
-  //       width: '60%',
-  //       // height: '60%',
-  //       data: { mode: EMode.ADD }
-  //     })
-  //     .afterClosed()
-  //     .subscribe({
-  //       next: (data) => {
-  //         if (data === 'Yes') this.getStaffData();
-  //       }
-  //     });
-  // }
-  // editStaff(staffdata: any) {
-  //   this.dialog
-  //     .open(AddEditComponent, {
-  //       width: '60%',
-  //       // height: '60%',
-  //       data: { mode: EMode.EDIT, staffdata }
-  //     })
-  //     .afterClosed()
-  //     .subscribe({
-  //       next: (data) => {
-  //         if (data === 'Yes') this.getStaffData();
-  //         this.paginator.pageIndex = 0;
-  //       }
-  //     });
-  // }
-  // async deleteStaff(id: string) {
-  //   const docRef = doc(this.firestore, EFirestoreCollectionName.Staff_Master, id); // Reference to the document you want to delete
-  //   try {
-  //     await deleteDoc(docRef); // Delete the document
-  //     this.toastr.success('Staff deleted successfully.'); // Show success message
-  //     this.getStaffData(); // Refresh the staff data to reflect changes
-  //     this.paginator.pageIndex = 0;
-  //   } catch (error) {
-  //     this.toastr.error('Error deleting staff.'); // Show error message
-  //   }
-  // }
-  // showDeleteConfirmation(id: string) {
-  //   const message = `You want to delete Staff`;
-  //   this.dialog
-  //     .open(ConfirmationComponent, {
-  //       data: { message },
-  //       height: '368px',
-  //       width: '500px'
-  //     })
-  //     .afterClosed()
-  //     .subscribe({
-  //       next: (data) => {
-  //         if (data === 'Yes') this.deleteStaff(id);
-  //       }
-  //     });
-  // }
-  // pageChange(event: PageEvent) {
-  //   this.pageSize = event.pageSize;
-  //   this.currentPage = event.pageIndex + 1;
-  //   // Fetch staff data for the current page
-  //   this.getStaffData(event.pageIndex, event.pageSize);
-  // }
+export class ListComponent implements OnInit {
+  toastr: ToastrService = inject(ToastrService);
+  dialog: MatDialog = inject(MatDialog);
+  postService: PostService = inject(PostService);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  loaderService: LoaderService = inject(LoaderService);
+  storageService: StorageService = inject(StorageService);
+  displayedColumns: string[] = ['title', 'author', 'action'];
+  dataSource = new MatTableDataSource<any>();
+  totalCount: number = 0;
+  pageSize: number = 10;
+  currentPage: number = 1;
+  currentUserData: IUser = this.storageService.getUserInfo();
+  private destroySubscription$: Subject<void> = new Subject();
+
+  ngOnInit() {
+    this.getPosts();
+  }
+
+  getPosts() {
+    this.postService
+      .getPosts(this.pageSize, this.currentPage)
+      .pipe(takeUntil(this.destroySubscription$))
+      .subscribe({
+        next: (res) => {
+          this.dataSource = new MatTableDataSource(res.data.posts);
+          this.totalCount = res.data.totalResults;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.error['message']);
+        }
+      });
+  }
+
+  addPost() {
+    this.dialog
+      .open(AddEditComponent, {
+        width: '50%',
+        // height: '60%',
+        data: { mode: EMode.ADD }
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data === 'Yes') this.getPosts();
+        }
+      });
+  }
+
+  editPost(postData: any) {
+    this.dialog
+      .open(AddEditComponent, {
+        width: '50%',
+        // height: '60%',
+        data: { mode: EMode.EDIT, postData }
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data === 'Yes') this.getPosts();
+        }
+      });
+  }
+
+  showDeleteConfirmation(postId: string) {
+    const message = `You want to delete post`;
+    this.dialog
+      .open(ConfirmationComponent, {
+        data: { message },
+        height: '368px',
+        width: '500px'
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data === 'Yes') this.deletePost(postId);
+        }
+      });
+  }
+
+  deletePost(postId: string) {
+    this.postService
+      .deletePost(postId)
+      .pipe(takeUntil(this.destroySubscription$))
+      .subscribe({
+        next: (res) => {
+          this.toastr.success(res.message);
+          this.getPosts();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.error['message']);
+        }
+      });
+  }
+
+  pageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex + 1;
+    this.getPosts();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubscription$.next();
+    this.destroySubscription$.complete();
+  }
 }

@@ -22,7 +22,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { loaderInterceptor, tokenInterceptor } from './interceptors';
+import { errorInterceptor, loaderInterceptor, tokenInterceptor } from './interceptors';
 import { DatePipe } from '@angular/common';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatNativeDatetimeModule } from '@mat-datetimepicker/core';
@@ -64,7 +64,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   providers: [
     DatePipe,
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([loaderInterceptor, tokenInterceptor])),
+    provideHttpClient(withInterceptors([loaderInterceptor, tokenInterceptor, errorInterceptor])),
     provideNativeDateAdapter()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
