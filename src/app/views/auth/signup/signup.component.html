@@ -1,0 +1,128 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="card">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="card-body">
+            <form [formGroup]="signupForm" (ngSubmit)="signup()">
+              <div class="text-center">
+                <div class="logo-holder">
+                  <img src="assets/images/logo.svg" alt="logo" class="img-fluid" />
+                </div>
+                <h4 class="mb-3 f-w-400">Sign up</h4>
+              </div>
+
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': signupForm.controls.name.invalid && (signupForm.controls.name.dirty || signupForm.controls.name.touched)
+                  }"
+                  formControlName="name"
+                  placeholder="Name"
+                  aria-label="Name"
+                  aria-describedby="basic-addon1 validationNameFeedback"
+                />
+                @for (validation of errors.name; track $index) {
+                  @if (
+                    signupForm.get('name').hasError(validation.type) && (signupForm.get('name').dirty || signupForm.get('name').touched)
+                  ) {
+                    <span id="validationNameFeedback" class="invalid-feedback"> {{ validation.message }} </span>
+                  }
+                }
+              </div>
+
+              <div class="input-group mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      signupForm.controls.email.invalid && (signupForm.controls.email.dirty || signupForm.controls.email.touched)
+                  }"
+                  formControlName="email"
+                  placeholder="Email address"
+                  aria-label="Email"
+                  aria-describedby="basic-addon3 validationEmailFeedback"
+                />
+                @for (validation of errors.email; track $index) {
+                  @if (
+                    signupForm.get('email').hasError(validation.type) && (signupForm.get('email').dirty || signupForm.get('email').touched)
+                  ) {
+                    <span id="validationEmailFeedback" class="invalid-feedback"> {{ validation.message }} </span>
+                  }
+                }
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="passwod-holder">
+                  <input
+                    [type]="inputType1"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        signupForm.controls.password.invalid && (signupForm.controls.password.dirty || signupForm.controls.password.touched)
+                    }"
+                    autocomplete="new-password"
+                    formControlName="password"
+                    placeholder="Password"
+                    aria-label="Password"
+                    aria-describedby="basic-addon4 validationPasswordFeedback"
+                  />
+                  <div class="icon-holder" (click)="inputType1 = inputType1 === 'password' ? 'text' : 'password'">
+                    <i class="fa-solid" [ngClass]="inputType1 === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  </div>
+                </div>
+
+                @for (validation of errors.newPassword; track $index) {
+                  @if (
+                    signupForm.get('password').hasError(validation.type) &&
+                    (signupForm.get('password').dirty || signupForm.get('password').touched)
+                  ) {
+                    <span id="validationPasswordFeedback" class="invalid-feedback"> {{ validation.message }} </span>
+                  }
+                }
+              </div>
+
+              <div class="input-group mb-4">
+                <div class="passwod-holder">
+                  <input
+                    [type]="inputType2"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        signupForm.controls.confirmPassword.invalid &&
+                        (signupForm.controls.confirmPassword.dirty || signupForm.controls.confirmPassword.touched)
+                    }"
+                    formControlName="confirmPassword"
+                    placeholder="Confirm password"
+                    aria-label="Confirm password"
+                    aria-describedby="basic-addon5 validationConfirmPasswordFeedback"
+                  />
+                  <div class="icon-holder" (click)="inputType2 = inputType2 === 'password' ? 'text' : 'password'">
+                    <i class="fa-solid" [ngClass]="inputType2 === 'password' ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  </div>
+                </div>
+                @for (validation of errors.confirmPassword; track $index) {
+                  @if (
+                    signupForm.get('confirmPassword').hasError(validation.type) &&
+                    (signupForm.get('confirmPassword').dirty || signupForm.get('confirmPassword').touched)
+                  ) {
+                    <span id="validationConfirmPasswordFeedback" class="invalid-feedback"> {{ validation.message }} </span>
+                  }
+                }
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-block btn-primary mb-4">Sign up</button>
+              </div>
+
+              <p class="mb-2 text-muted text-center">Have account? <a [routerLink]="['/auth/signin']" class="f-w-400">Signin</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Crop for better fit</h1>
+<div mat-dialog-content>
+  <image-cropper (imageCropped)="imageCropped($event)" [imageBase64]="data.imageBase64" output="base64"></image-cropper>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button color="warn" class="btn" mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" class="btn" (click)="onCrop()">Continue</button>
+</div>
