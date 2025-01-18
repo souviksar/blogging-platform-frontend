@@ -1,0 +1,95 @@
+.transaction-details {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+/* Styling for the label */
+.transition-list {
+  margin-bottom: 15px;
+}
+
+.transaction-details label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #333;
+}
+
+/* Styling for the icon */
+.transaction-details mat-icon {
+  color: #007bff;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+/* Styling for the span element */
+.transaction-details span {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Adding a hover effect to the container */
+.transaction-details:hover {
+  background-color: #f1f1f1;
+  border-color: #bbb;
+}
+
+.comment-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.comment-header strong {
+  font-size: 1rem;
+  color: #333;
+}
+
+.comment-header small {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.comment-content {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}
+
+.text-muted {
+  color: #aaa;
+}
+
+.card-box {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.comment-item {
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px 0;
+}
+
+.comment-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.875rem;
+}

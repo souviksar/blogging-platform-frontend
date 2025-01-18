@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  IAddCommentRequest,
+  IAddCommentResponse,
   IAddPostRequest,
   IAddPostResponse,
   IDeletePostResponse,
+  IGeTPostResponse,
   IGeTPostsResponse,
   IUpdatePostRequest,
   IUpdatePostResponse
@@ -25,7 +28,7 @@ export class PostService {
   }
 
   getPost(postId: string) {
-    return this.http.get<IGeTPostsResponse>(`${environment.API_BASE_URL}post/get-post/${postId}`);
+    return this.http.get<IGeTPostResponse>(`${environment.API_BASE_URL}post/get-post/${postId}`);
   }
 
   updatePost(postId: string, payload: IUpdatePostRequest) {
@@ -34,5 +37,9 @@ export class PostService {
 
   deletePost(postId: string) {
     return this.http.delete<IDeletePostResponse>(`${environment.API_BASE_URL}post/delete-post/${postId}`);
+  }
+
+  addComment(postId: string, payload: IAddCommentRequest) {
+    return this.http.post<IAddCommentResponse>(`${environment.API_BASE_URL}post/add-comment/${postId}`, payload);
   }
 }

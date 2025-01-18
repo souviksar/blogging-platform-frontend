@@ -17,7 +17,7 @@ export interface IPost {
   content: string;
   author: IAuthor;
   status: boolean;
-  comments: any[];
+  comments: IComment[];
   created_at: Date;
   updated_at: Date;
   id: string;
@@ -26,11 +26,17 @@ export interface IPost {
 interface IAuthor {
   name: string;
   email: string;
-  role: string;
-  status: boolean;
-  created_at: Date;
-  updated_at: Date;
   id: string;
+}
+
+interface IComment {
+  commenter: ICommenter;
+  content: string;
+}
+
+interface ICommenter {
+  name: string;
+  email: string;
 }
 
 export interface IAddPostRequest {
@@ -41,6 +47,12 @@ export interface IAddPostRequest {
 export interface IAddPostResponse {
   code: number;
   message: string;
+}
+
+export interface IGeTPostResponse {
+  code: number;
+  message: string;
+  data: IPost;
 }
 
 export interface IUpdatePostRequest {
@@ -54,6 +66,15 @@ export interface IUpdatePostResponse {
 }
 
 export interface IDeletePostResponse {
+  code: number;
+  message: string;
+}
+
+export interface IAddCommentRequest {
+  content: string;
+}
+
+export interface IAddCommentResponse {
   code: number;
   message: string;
 }

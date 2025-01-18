@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService, PostService, StorageService } from 'src/app/services';
@@ -14,15 +14,16 @@ import { AddEditComponent } from '../add-edit/add-edit.component';
 import { Subject, takeUntil } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IUser } from 'src/app/interfaces';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
   standalone: true,
-  imports: [MaterialModule, ReactiveFormsModule, CommonModule, EmptyValueCheckPipe],
+  imports: [MaterialModule, ReactiveFormsModule, CommonModule, EmptyValueCheckPipe, RouterLink],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   toastr: ToastrService = inject(ToastrService);
   dialog: MatDialog = inject(MatDialog);
   postService: PostService = inject(PostService);

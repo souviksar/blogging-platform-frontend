@@ -1,0 +1,40 @@
+<div class="card-popup-holder-pannel staf-popup">
+  <!-- <button class="modal-close" mat-button (click)="onNoClick()"><i class="fa-solid fa-xmark"></i></button> -->
+  <button mat-icon-button aria-label="close dialog" mat-dialog-close class="close-popup">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="text-center">
+    <h2 mat-dialog-title>Add Comment</h2>
+  </div>
+
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-holder">
+          <form [formGroup]="addEditForm" (ngSubmit)="addComment()">
+            <div class="col-md-12">
+              <div class="form-holder">
+                <mat-form-field class="form-control-holder">
+                  <input matInput placeholder="Content" formControlName="content" />
+                </mat-form-field>
+                <ng-container *ngFor="let validation of errors.content">
+                  <mat-error
+                    *ngIf="
+                      addEditForm.get('content').hasError(validation.type) &&
+                      (addEditForm.get('content').dirty || addEditForm.get('content').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
+                </ng-container>
+              </div>
+            </div>
+            <mat-dialog-actions align="end" class="p-0">
+              <button class="btn cancel-btn" mat-button mat-dialog-close>Cancel</button>
+              <button class="btn ms-2" type="submit">Save</button>
+            </mat-dialog-actions>
+          </form>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

@@ -19,16 +19,19 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let element">
-          @if (currentUserData.id === element.author.id) {
-            <div class="icon-holder">
+          <div class="icon-holder">
+            <div class="table-icon" matTooltip="Details" [routerLink]="['/post/details', element.id]">
+              <mat-icon>visibility</mat-icon>
+            </div>
+            @if (currentUserData.id === element.author.id) {
               <div class="table-icon" matTooltip="Edit" (click)="editPost(element)">
                 <mat-icon>edit</mat-icon>
               </div>
               <div class="table-icon" matTooltip="Delete" (click)="showDeleteConfirmation(element.id)">
                 <mat-icon>delete</mat-icon>
               </div>
-            </div>
-          }
+            }
+          </div>
         </td>
       </ng-container>
 
