@@ -1,27 +1,101 @@
-# ScaleSuiteIo Admin
+# Blogging Platform
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+## About the Project
 
-## Development server
+This is a blogging platform application where users can register themselves, create, edit, and delete their blogs, view their own blogs as well as blogs created by others, and leave comments on them.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Sign up for an account.
 
-## Build
+- Log in with their credentials.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Create new blog posts with a title and content.
 
-## Running unit tests
+- View a list of all blog posts with their titles and authors.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Click on a blog post to view its full content and comments.
 
-## Running end-to-end tests
+- Add comments to blog posts.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Edit and update their own blog posts.
 
-## Further help
+- Delete their own blog posts.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/cli) page.
+- Log out.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [Angular CLI](https://angular.dev/tools/cli/setup-local) (v18 or later)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/souviksar/blogging-platform-frontend.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd blogging-platform-frontend
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Running the Application
+
+Start the development server:
+
+```bash
+ng serve
+```
+
+Visit `http://localhost:4200` in your browser.
+
+### Building for Production
+
+Build the application for production:
+
+```bash
+npm run build:production
+```
+
+The output will be in the `dist/` directory.
+
+---
+
+## Folder Structure
+
+```plaintext
+src/
+├── app/                # Application-specific code
+├── assets/             # Static assets
+├── environments/       # Environment configurations
+├── styles.scss          # Global styles
+├── index.html          # Main HTML file
+└── main.ts             # Entry point for the application
+```
+
+---
+
+## Technologies Used
+
+- [Angular](https://angular.dev)
+- [RxJS](https://rxjs.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Bootstrap/Angular Material]

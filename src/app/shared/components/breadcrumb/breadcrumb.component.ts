@@ -42,14 +42,14 @@ export class BreadcrumbComponent implements OnDestroy {
       )
       .subscribe((data: IRouteData) => {
         this.routeData = data;
-        this.titleService.setTitle(data.title && data.title.length ? data.title + ' | scalesuite.io Admin' : 'scalesuite.io Admin');
+        this.titleService.setTitle(data.title && data.title.length ? data.title + ' | Blogging Platform' : 'Blogging Platform');
       });
   }
 
   ngOnDestroy(): void {
     this.destroySubject$.next();
     this.destroySubject$.complete();
-    this.titleService.setTitle('scalesuite.io Admin');
+    this.titleService.setTitle('Blogging Platform');
   }
 
   goBack() {}
